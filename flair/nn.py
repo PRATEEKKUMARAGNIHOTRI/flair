@@ -81,7 +81,7 @@ class Model(torch.nn.Module):
         :param model: the model file
         :return: the loaded text classifier model
         """
-        
+        print(str(model))
         if str(model)[-2:]=='pt':
             state = torch.load(str(model), map_location='cpu')
         
