@@ -378,6 +378,7 @@ class SequenceTagger(flair.nn.Model):
                     continue
 
                 feature = self.forward(batch)
+                print(feature)
 
                 if return_loss:
                     loss_and_count = self._calculate_loss(feature, batch)
@@ -390,6 +391,8 @@ class SequenceTagger(flair.nn.Model):
                     transitions=transitions,
                     get_all_tags=all_tag_prob,
                 )
+                print(tags)
+                print(all_tags)
 
                 for (sentence, sent_tags) in zip(batch, tags):
                     for (token, tag) in zip(sentence.tokens, sent_tags):
