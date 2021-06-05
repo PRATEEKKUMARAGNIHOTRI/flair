@@ -81,14 +81,19 @@ class Model(torch.nn.Module):
         :param model: the model file
         :return: the loaded text classifier model
         """
-        model_file = cls._fetch_model(str(model))
+        
+        if str(model)[:-2]=='pt':
+            state = torch.load(str(model), map_location='cpu')
+        
+        else:
+            model_file = cls._fetch_model(str(model))
 
-        with warnings.catch_warnings():
-            warnings.filterwarnings("ignore")
-            # load_big_file is a workaround by https://github.com/highway11git to load models on some Mac/Windows setups
-            # see https://github.com/zalandoresearch/flair/issues/351
-            f = file_utils.load_big_file(str(model_file))
-            state = torch.load(f, map_location='cpu')
+            with warnings.catch_warnings():
+                warnings.filterwarnings("ignore")
+                # load_big_file is a workaround by https://github.com/highway11git to load models on some Mac/Windows setups
+                # see https://github.com/zalandoresearch/flair/issues/351
+                f = file_utils.load_big_file(str(model_file))
+                state = torch.load(f, map_location='cpu')
 
         model = cls._init_model_with_state_dict(state)
 
